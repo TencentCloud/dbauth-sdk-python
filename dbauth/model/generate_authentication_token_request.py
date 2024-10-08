@@ -1,25 +1,25 @@
-from tencentcloud.common.exception.tencent_cloud_sdk_exception import TencentCloudSDKException
 from tencentcloud.cam.v20190116 import errorcodes
 from tencentcloud.common import credential as Credential
+from tencentcloud.common.exception.tencent_cloud_sdk_exception import TencentCloudSDKException
 
 
 class GenerateAuthenticationTokenRequest:
     def __init__(self, region: str, instance_id: str, user_name: str, credential: Credential, client_profile=None):
         if not region:
             raise TencentCloudSDKException(
-                "The region is invalid.", "", errorcodes.INVALIDPARAMETER_RESOURCEREGIONERROR.value
+                errorcodes.INVALIDPARAMETER_RESOURCEREGIONERROR, "The region is invalid."
             )
         if not instance_id:
             raise TencentCloudSDKException(
-                "The instanceId is invalid.", "", errorcodes.INVALIDPARAMETER_RESOURCEERROR.value
+                errorcodes.INVALIDPARAMETER_RESOURCEERROR, "The instanceId is invalid."
             )
         if not user_name:
             raise TencentCloudSDKException(
-                "The userName is invalid.", "", errorcodes.INVALIDPARAMETER_USERNAMEILLEGAL.value
+                errorcodes.INVALIDPARAMETER_USERNAMEILLEGAL, "The userName is invalid."
             )
         if not credential or not credential.secretId or not credential.secretKey:
             raise TencentCloudSDKException(
-                "The credential is invalid.", "", errorcodes.RESOURCENOTFOUND_SECRETNOTEXIST.value
+                errorcodes.RESOURCENOTFOUND_SECRETNOTEXIST, "The credential is invalid."
             )
 
         self.region = region
