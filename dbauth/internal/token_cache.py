@@ -1,9 +1,11 @@
-import os
 import logging
+import os
 from pathlib import Path
+from threading import Lock
+
 from dbauth.internal.constants import Constants
-from dbauth.internal.utils import Utils
 from dbauth.internal.token import Token
+from dbauth.internal.utils import Utils
 
 
 class TokenCache:
@@ -11,18 +13,21 @@ class TokenCache:
 
     def __init__(self):
         self.token_map = {}
-        self.file_last_modify_time_map = {}
         self.log = logging.getLogger(__name__)
+        self.lock = Lock()
 
     def get_auth_token(self, key):
-        return self.token_map.get(key)
+        with self.lock:
+            return self.token_map.get(key)
 
     def set_auth_token(self, key, token):
         if key and token:
-            self.token_map[key] = token
+            with self.lock:
+                self.token_map[key] = token
 
     def remove_auth_token(self, key):
-        self.token_map.pop(key, None)
+        with self.lock:
+            self.token_map.pop(key, None)
 
     def fallback(self, request):
         input_file_path = self.generate_input_file_path(request)
