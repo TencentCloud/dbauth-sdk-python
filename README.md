@@ -110,7 +110,7 @@ def get_auth_token(region, instance_id, user_name, cred):
     try:
         # Instantiate an HTTP option, optional, can be skipped if there are no special requirements
         http_profile = HttpProfile()
-        http_profile.endpoint = "cam.internal.tencentcloudapi.com"
+        http_profile.endpoint = "cam.tencentcloudapi.com"
 
         # Instantiate a Client option, optional, can be skipped if there are no special requirements
         client_profile = ClientProfile()
